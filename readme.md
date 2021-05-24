@@ -45,6 +45,26 @@ gets populated at startup with data.
 A similar setups is provided for MySql and PostgreSQL in case a persistent database configuration is needed.
 To run petclinic locally using persistent database, it is needed to change profile defined in application.properties file.
 
+For YugabyteDB Database, it is needed to change param "hsqldb" to "yugabytedb" in string
+```
+spring.profiles.active=hsqldb,spring-data-jpa
+```
+defined in application.properties file.
+
+Before do this, would be good to check properties defined in application-mysql.properties file.
+
+```
+spring.datasource.url=jdbc:postgresql://localhost:5433/petclinic
+spring.datasource.username=yugabyte
+spring.datasource.password=
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.jpa.database=POSTGRESQL
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.hibernate.ddl-auto=none
+```      
+You may also start a YugabyteDB database with docker by following these [instructions](https://download.yugabyte.com/#docker)
+
+
 For MySQL database, it is needed to change param "hsqldb" to "mysql" in string
 ```
 spring.profiles.active=hsqldb,spring-data-jpa
