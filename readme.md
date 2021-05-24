@@ -1,11 +1,15 @@
 # REST version of Spring PetClinic Sample Application (spring-framework-petclinic extend ) [![Build Status](https://travis-ci.org/spring-petclinic/spring-petclinic-rest.png?branch=master)](https://travis-ci.org/spring-petclinic/spring-petclinic-rest/)
 
 This backend version of the Spring Petclinic application only provides a REST API. **There is no UI**.
-The [spring-petclinic-angular project](https://github.com/spring-petclinic/spring-petclinic-angular) is a Angular front-end application witch consumes the REST API.
+The [spring-petclinic-angular project](https://github.com/spring-petclinic/spring-petclinic-angular) is a Angular front-end application which consumes the REST API.
 
 ## Understanding the Spring Petclinic application with a few diagrams
 
 [See the presentation of the Spring Petclinic Framework version](http://fr.slideshare.net/AntoineRey/spring-framework-petclinic-sample-application)
+
+### Petclinic ER Model
+
+![alt petclinic-ermodel](petclinic-ermodel.png)
 
 ## Running petclinic locally
 
@@ -141,7 +145,7 @@ POST /api/users
 
 ### prerequisites
 The following items should be installed in your system:
-* Maven 3 (http://www.sonatype.com/books/mvnref-book/reference/installation.html)
+* Maven 3 (https://maven.apache.org/install.html)
 * git command line tool (https://help.github.com/articles/set-up-git)
 * Eclipse with the m2e plugin (m2e is installed by default when using the STS (http://www.springsource.org/sts) distribution of Eclipse)
 

@@ -34,15 +34,35 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BindingErrorsResponse {
 
-	private List<BindingError> bindingErrors = new ArrayList<BindingError>();
+    public BindingErrorsResponse() {
+        this(null);
+    }
 
-	public List<BindingError> getBindingErrors() {
-		return bindingErrors;
-	}
+    public BindingErrorsResponse(Integer id) {
+        this(null, id);
+    }
 
-	public void setBindingErrors(List<BindingError> bindingErrors) {
-		this.bindingErrors = bindingErrors;
-	}
+    public BindingErrorsResponse(Integer pathId, Integer bodyId) {
+        boolean onlyBodyIdSpecified = pathId == null && bodyId != null;
+        if (onlyBodyIdSpecified) {
+            addBodyIdError(bodyId, "must not be specified");
+        }
+        boolean bothIdsSpecified = pathId != null && bodyId != null;
+        if (bothIdsSpecified && !pathId.equals(bodyId)) {
+            addBodyIdError(bodyId, String.format("does not match pathId: %d", pathId));
+        }
+    }
+
+    private void addBodyIdError(Integer bodyId, String message) {
+        BindingError error = new BindingError();
+        error.setObjectName("body");
+        error.setFieldName("id");
+        error.setFieldValue(bodyId.toString());
+        error.setErrorMessage(message);
+        addError(error);
+    }
+
+	private final List<BindingError> bindingErrors = new ArrayList<BindingError>();
 
 	public void addError(BindingError bindingError) {
 		this.bindingErrors.add(bindingError);
@@ -53,7 +73,7 @@ public class BindingErrorsResponse {
 			BindingError error = new BindingError();
 			error.setObjectName(fieldError.getObjectName());
 			error.setFieldName(fieldError.getField());
-			error.setFieldValue(fieldError.getRejectedValue().toString());
+			error.setFieldValue(String.valueOf(fieldError.getRejectedValue()));
 			error.setErrorMessage(fieldError.getDefaultMessage());
 			addError(error);
 		}
@@ -76,7 +96,7 @@ public class BindingErrorsResponse {
 		return "BindingErrorsResponse [bindingErrors=" + bindingErrors + "]";
 	}
 
-	protected class BindingError {
+	protected static class BindingError {
 
 		private String objectName;
 		private String fieldName;
@@ -90,32 +110,16 @@ public class BindingErrorsResponse {
 			this.errorMessage = "";
 		}
 
-		protected String getObjectName() {
-			return objectName;
-		}
-
 		protected void setObjectName(String objectName) {
 			this.objectName = objectName;
-		}
-
-		protected String getFieldName() {
-			return fieldName;
 		}
 
 		protected void setFieldName(String fieldName) {
 			this.fieldName = fieldName;
 		}
 
-		protected String getFieldValue() {
-			return fieldValue;
-		}
-
 		protected void setFieldValue(String fieldValue) {
 			this.fieldValue = fieldValue;
-		}
-
-		protected String getErrorMessage() {
-			return errorMessage;
 		}
 
 		protected void setErrorMessage(String error_message) {
